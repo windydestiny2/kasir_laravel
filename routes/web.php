@@ -7,14 +7,18 @@ Route::get('/template', function () {
     return view('template');
 });
 Route::get('/', function () {
-    return view('admin.layouts.wrapper');
-});
-Route::get('/user', function () {
     $data = [
-        'content' => 'admin.user.index' 
+        'content' => 'admin.dashboard.index' 
     ];
     return view('admin.layouts.wrapper', $data);
 });
+
+
+Route::resource('/user', AdminUserController::class);
+
+
+
+
 Route::get('/post', function () {
     $data = [
         'content' => 'admin.post.index' 

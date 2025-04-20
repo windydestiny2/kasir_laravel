@@ -11,17 +11,6 @@
       <!-- Sidebar user panel (optional) -->
       
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
       <!-- Sidebar Menu -->
       <nav class="mt-2">
@@ -31,17 +20,17 @@
          
 
           <li class="nav-item">
-            <a href="/post" class="nav-link">
+            <a href="/" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Post
+                Dashboard
               </p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="/user" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-user"></i>
               <p>
                 User
               </p>
