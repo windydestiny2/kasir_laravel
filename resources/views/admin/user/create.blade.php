@@ -5,9 +5,11 @@
                 <div class="card-body">
                 <h4><b>Tambah Data</b></h4>
 
+                <form action="/admin/user" method="POST">
+                    @csrf
                     <div class="form-group">
                         <label for=""><b>Nama Lengkap</b></label>
-                        <input type="text" class="form-control" name="name" placeholder="Nama Lengkap">
+                        <input type="text" class="form-control @error('name')  is-invalid @enderror" name="name" placeholder="Nama Lengkap">
                     </div>
 
                     <div class="form-group">
@@ -28,7 +30,7 @@
 
                     <a href="/admin/user" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Kembali</a>
                     <button type="submit" class="btn btn-primary">Simpan</button>
-
+                    </form>
                 </div>
             </div>
         </div>
