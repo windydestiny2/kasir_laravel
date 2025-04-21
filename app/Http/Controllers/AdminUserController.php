@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AdminUserController extends Controller
@@ -13,6 +13,7 @@ class AdminUserController extends Controller
     {
         //
         $data = [
+            'users' => User::all(),
             'content' => 'admin.user.index' 
         ];
         return view('admin.layouts.wrapper', $data);
@@ -37,11 +38,14 @@ class AdminUserController extends Controller
     {
         //
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
-            're_password' => 'required|string|min:8|same:password',
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            're_password' => 'required|same:password',
         ]);
+
+        User::create($data);
+        return redirect('/admin/user');
     }
 
     /**

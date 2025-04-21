@@ -11,15 +11,23 @@
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
+
+
+                    @foreach ($users as $item)
+
+                    
+
                     <tr>
-                        <td>1</td>
-                        <td>Windy Destiny</td>
-                        <td>windy.destiny@gmail.com</td>
+                        <td> {{$loop->iteration}}</td>
+                        <td>{{$item->name}}</td>
+                        <td>{{ $item->email }}</td>
                         <td>
                             <a href="" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                             <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
+                    @endforeach
+
                 </table>
             </div>
         </div>
