@@ -46,7 +46,7 @@ class AdminUserController extends Controller
         ]);
 
         User::create($data);
-        return redirect('/admin/user');
+        return redirect('/admin/user')->with('success', 'Data telah ditambahkan');
     }
 
     /**
@@ -90,14 +90,17 @@ class AdminUserController extends Controller
         }
 
         $user->update($data);
-        return redirect('/admin/user');
+        return redirect('/admin/user')->with('success', 'Data telah diedit');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         //
+        $user = User::find($id);
+        $user->delete();
+        return redirect('/admin/user')->with('success', 'Data telah dihapus');
     }
 }
