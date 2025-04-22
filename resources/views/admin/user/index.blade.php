@@ -22,7 +22,7 @@
                         <td>{{$item->name}}</td>
                         <td>{{ $item->email }}</td>
                         <td>
-                            <a href="" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
+                            <a href="/admin/user/{{$item->id }}/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
                             <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                         </td>
                     </tr>
