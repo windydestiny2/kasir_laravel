@@ -2,6 +2,7 @@
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminKategoriController;
 
 // Ensure AdminUserController exists and is correctly imported
 
@@ -20,9 +21,6 @@ Route::get('/', function () {
 
 
 
-
-
-
 Route::prefix('/admin')->middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         $data = [
@@ -30,6 +28,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         ];
         return view('admin.layouts.wrapper', $data);
     });
+    Route::resource('/kategori', AdminKategoriController::class);
     Route::resource('/user', AdminUserController::class);
 });
 

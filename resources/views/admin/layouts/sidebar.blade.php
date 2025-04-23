@@ -29,6 +29,15 @@
           </li>
 
           <li class="nav-item">
+            <a href="/admin/kategori" class="nav-link">
+              <i class="nav-icon fas fa-list"></i>
+              <p>
+                Kategori
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="/admin/user" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
