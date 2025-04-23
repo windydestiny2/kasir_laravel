@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class AdminUserController extends Controller
 {
@@ -46,6 +48,7 @@ class AdminUserController extends Controller
         ]);
 
         User::create($data);
+        Alert::success('Success!', 'Data telah ditambahkan');
         return redirect('/admin/user')->with('success', 'Data telah ditambahkan');
     }
 
@@ -90,6 +93,7 @@ class AdminUserController extends Controller
         }
 
         $user->update($data);
+        Alert::success('Success!', 'Data telah diedit');
         return redirect('/admin/user')->with('success', 'Data telah diedit');
     }
 
@@ -101,6 +105,7 @@ class AdminUserController extends Controller
         //
         $user = User::find($id);
         $user->delete();
+        Alert::success('Success!', 'Data telah dihapus');
         return redirect('/admin/user')->with('success', 'Data telah dihapus');
     }
 }
