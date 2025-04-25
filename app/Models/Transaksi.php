@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Topping extends Model
+class Transaksi extends Model
 {
     //
-    protected $guarded = [];
 }

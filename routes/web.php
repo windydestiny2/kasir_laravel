@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminKategoriController;
 use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminToppingController;
+use App\Http\Controllers\AdminTransaksiController;
 
 // Ensure AdminUserController exists and is correctly imported
 
@@ -29,11 +30,14 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
             'content' => 'admin.dashboard.index' 
         ];
         return view('admin.layouts.wrapper', $data);
+
     });
+    Route::resource('/transaksi', AdminTransaksiController::class);
     Route::resource('/produk', AdminProdukController::class);
     Route::resource('/topping', AdminToppingController::class);
     Route::resource('/kategori', AdminKategoriController::class);
     Route::resource('/user', AdminUserController::class);
+
 });
 
 

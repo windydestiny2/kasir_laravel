@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Topping;
+use App\Models\Produk;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Models\Kategori;
+use App\Models\Topping;
+
 
 class AdminToppingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Menampilkan halaman daftar topping
     public function index()
     {
-        //
-        // die('masuk');
-        $data = [
+         // die('masuk');
+         $data = [
             'title' => 'Manajemen Topping',
             'topping' => Topping::paginate(5),
             'content' => 'admin/topping/index'
@@ -23,14 +23,9 @@ class AdminToppingController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
-
-    
-    /**
-     * Show the form for creating a new resource.
-     */
+    // Menampilkan halaman tambah topping
     public function create()
     {
-        //
         $data = [
             'title' => 'Tambah Topping',
             'content' => 'admin/topping/create'
@@ -38,68 +33,56 @@ class AdminToppingController extends Controller
         return view('admin.layouts.wrapper', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    // Menyimpan data topping baru
     public function store(Request $request)
     {
-        //
-        $data = $request->validate([
-            'name' => 'required|unique:toppings',
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
         ]);
-        Topping::create($data);
-        Alert::success('Success!', 'Data berhasil ditambahkan');
-        return redirect()->back();
+
+        Topping::create([
+            'name' => $request->name,
+            'harga' => $request->harga,
+        ]);
+
+        return redirect('/admin/topping')->with('success', 'Topping berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    // Menampilkan halaman edit topping
+    public function edit(Topping $topping)
     {
-        //
-        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
         $data = [
-            'title' => 'Tambah Topping',
-            'topping' => Topping::find($id),
+            'title' => 'Edit Topping',
+            'topping' => $topping,
             'content' => 'admin/topping/create'
-
         ];
+        
         return view('admin.layouts.wrapper', $data);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-        $topping = Topping::find($id);
-        $data = $request->validate([
-            'name' => 'required|unique:toppings,name,' . $topping->id,
-        ]);
-        $topping->update($data);
         Alert::success('Success!', 'Data berhasil diedit');
-        return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    // Memperbarui data topping
+    public function update(Request $request, Topping $topping)
     {
-        //
-        $topping = Topping::find($id);
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'harga' => 'required|numeric|min:0',
+        ]);
+
+        $topping->update([
+            'name' => $request->name,
+            'harga' => $request->harga,
+        ]);
+
+        return redirect('/admin/topping')->with('success', 'Topping berhasil diperbarui.');
+    }
+
+    // Menghapus topping
+    public function destroy(Topping $topping)
+    {
         $topping->delete();
         Alert::success('Success!', 'Data berhasil dihapus');
-        return redirect()->back();
+        return redirect('/admin/topping')->with('success', 'Topping berhasil dihapus.');
     }
 }

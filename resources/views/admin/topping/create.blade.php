@@ -24,6 +24,15 @@
                         </div>
                     @enderror
 
+
+                    <label for="">Harga</label>
+                    <input type="number" name="harga" class="form-control @error('harga') is-invalid @enderror" placeholder="Harga" value="{{ isset($produk) ?  $produk->harga : old('harga') }}">
+                    @error('harga')
+                        <div class="invalid-feedback">
+                            {{ $message }}
+                        </div>
+                    @enderror
+
                     <a href="/admin/topping" class="btn btn-info mt-2"><i class="fas fa-arrow-left"></i> Kembali</a>
                     <button type="submit" class="btn btn-primary mt-2"><i class="fas fa-save"></i> Simpan</button>
             </form>

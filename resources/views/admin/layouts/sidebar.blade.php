@@ -29,6 +29,15 @@
           </li>
 
           <li class="nav-item">
+            <a href="/admin/transaksi" class="nav-link {{ Request::is('/admin/transaksi') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-exchange-alt"></i>
+              <p>
+                Transaksi
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
             <a href="/admin/produk" class="nav-link {{ Request::is('admin/produk*') ? 'active' : '' }}">
               <i class="nav-icon fas fa-table"></i>
               <p>
@@ -39,7 +48,7 @@
 
           <li class="nav-item">
             <a href="/admin/topping" class="nav-link {{ Request::is('admin/topping*') ? 'active' : '' }}">
-              <i class="nav-icon fas fa-list"></i>
+              <i class="nav-icon fas fa-hamburger"></i>
               <p>
                 Topping
               </p>

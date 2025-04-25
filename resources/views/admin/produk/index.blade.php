@@ -22,6 +22,8 @@
                         <td>{{ $loop->iteration }}</td>
             
                         <td>{{ $item->name }}</td>
+
+                        <td>{{ $item->harga }}</td> <!-- Tampilkan harga di sini -->
                         <td>
                         <div class="d-flex">
                             <a href="/admin/produk/{{ $item->id }}/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a>
