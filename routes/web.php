@@ -3,6 +3,8 @@ use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminKategoriController;
+use App\Http\Controllers\AdminProdukController;
+use App\Http\Controllers\AdminToppingController;
 
 // Ensure AdminUserController exists and is correctly imported
 
@@ -28,6 +30,8 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         ];
         return view('admin.layouts.wrapper', $data);
     });
+    Route::resource('/produk', AdminProdukController::class);
+    Route::resource('/topping', AdminToppingController::class);
     Route::resource('/kategori', AdminKategoriController::class);
     Route::resource('/user', AdminUserController::class);
 });

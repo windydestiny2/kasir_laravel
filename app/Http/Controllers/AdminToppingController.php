@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
 use Illuminate\Http\Request;
+use App\Models\Topping;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class AdminKategoriController extends Controller
+class AdminToppingController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class AdminKategoriController extends Controller
         //
         // die('masuk');
         $data = [
-            'title' => 'Manajemen Kategori',
-            'kategori' => Kategori::paginate(6),
-            'content' => 'admin/kategori/index'
+            'title' => 'Manajemen Topping',
+            'topping' => Topping::paginate(5),
+            'content' => 'admin/topping/index'
         ];
         return view('admin.layouts.wrapper', $data);
     }
@@ -32,8 +32,8 @@ class AdminKategoriController extends Controller
     {
         //
         $data = [
-            'title' => 'Tambah Kategori',
-            'content' => 'admin/kategori/create'
+            'title' => 'Tambah Topping',
+            'content' => 'admin/topping/create'
         ];
         return view('admin.layouts.wrapper', $data);
     }
@@ -45,9 +45,9 @@ class AdminKategoriController extends Controller
     {
         //
         $data = $request->validate([
-            'name' => 'required|unique:kategoris',
+            'name' => 'required|unique:toppings',
         ]);
-        Kategori::create($data);
+        Topping::create($data);
         Alert::success('Success!', 'Data berhasil ditambahkan');
         return redirect()->back();
     }
@@ -68,9 +68,9 @@ class AdminKategoriController extends Controller
     {
         //
         $data = [
-            'title' => 'Tambah Kategori',
-            'kategori' => Kategori::find($id),
-            'content' => 'admin/kategori/create'
+            'title' => 'Tambah Topping',
+            'topping' => Topping::find($id),
+            'content' => 'admin/topping/create'
 
         ];
         return view('admin.layouts.wrapper', $data);
@@ -82,11 +82,11 @@ class AdminKategoriController extends Controller
     public function update(Request $request, string $id)
     {
         //
-        $kategori = Kategori::find($id);
+        $topping = Topping::find($id);
         $data = $request->validate([
-            'name' => 'required|unique:kategoris,name,' . $kategori->id,
+            'name' => 'required|unique:toppings,name,' . $topping->id,
         ]);
-        $kategori->update($data);
+        $topping->update($data);
         Alert::success('Success!', 'Data berhasil diedit');
         return redirect()->back();
     }
@@ -97,8 +97,8 @@ class AdminKategoriController extends Controller
     public function destroy(string $id)
     {
         //
-        $kategori = Kategori::find($id);
-        $kategori->delete();
+        $topping = Topping::find($id);
+        $topping->delete();
         Alert::success('Success!', 'Data berhasil dihapus');
         return redirect()->back();
     }
