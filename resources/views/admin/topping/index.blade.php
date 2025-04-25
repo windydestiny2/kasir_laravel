@@ -21,6 +21,8 @@
                         <td>{{ $loop->iteration }}</td>
             
                         <td>{{ $item->name }}</td>
+
+                        <td>{{ $item->harga }}</td> <!-- Tampilkan harga di sini -->
                         
                        
                         
