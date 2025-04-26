@@ -32,6 +32,15 @@ class AdminTransaksiController extends Controller
     public function create()
     {
         //
+        $data = [
+            'title' => 'Tambah Transaksi',
+            'transaksi' => Transaksi::all(),
+            'content' => 'admin/transaksi/create'
+        ];
+        return view('admin.layouts.wrapper', $data);
+
+       
+        return view('admin.transaksi.create', compact('transaksi'));
     }
 
     /**

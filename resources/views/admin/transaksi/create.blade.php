@@ -1,88 +1,181 @@
-<div class="row p-3">
+<div class="row mt-1 p-3">
+
     <div class="col-md-6">
         <div class="card">
-
             <div class="card-body">
 
-            <h5><b>{{ $title }}</b></h5>
-            <hr>
-            
-            @isset($transaksi)
-                <form action="/admin/transaksi/{{ $transaksi->id}}" method="POST" enctype="multipart/form-data">
-                    @method('put')
-            @else
-                <form action="/admin/transaksi" method="POST" enctype="multipart/form-data">
-            @endisset
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Kode Produk</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <select name="produk_id" class="form-control" id="">
+                            <option value="">--Kode Produk--</option> 
+                        </select>
+                    </div>
+                </div>
 
-            <form action="/admin/transaksi" method="POST">
-                @csrf
-                   
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Nama Produk</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="nama_produk" id="" placeholder="Nama Produk">
+                    </div>
+                </div>
 
-                    <label for="">Nama Transaksi</label>
-                    <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Nama Transaksi" value="{{ isset($transaksi) ?  $transaksi->name : old('name') }}">
-                    @error('name')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Harga Satuan</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="harga_satuan" id="" placeholder="Harga Satuan">
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">QTY</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <div class="d-flex">
+                            <button class="btn btn-primary"><i class="fas fa-minus"></i></button>
+                            <input type="number" class="form-control" name="qty" id="" placeholder="Qty">
+                            <button class="btn btn-primary"><i class="fas fa-plus"></i></button>
+                            
                         </div>
-                    @enderror
+                    </div>
+                </div>
 
-                    <label for="">Nama Kategori</label>
-                   <select name="kategori_id" class="form-control" @error('kategori_id') is-invalid @enderror" id=""> 
-                    <option value="">--Kategori--</option>
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Topping</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <select name="topping" class="form-control" id="">
+                            <option value="">--Opsional--</option> 
+                        </select>
+                    </div>
+                </div>
 
-                    @foreach ($kategori as $item)
-                        <option value="{{ $item->id }}" 
-                            {{ isset($transaksi) ? $item->id == $transaksi->kategori_id ? 'selected' : '' :''}}>
-                            {{ $item->name }}
-                        </option>
-                    @endforeach
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Harga Topping</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" name="harga_topping" id="" placeholder="Harga Topping">
+                    </div>
+                </div>
 
-                   </select>
-                    @error('kategori_id')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <h5>Subtotal : Rp. 20000</h5>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <a href="/admin/transaksi" class="btn btn-info"><i class="fas fa-arrow-left"> Kembali</i></a>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"> Tambah</i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <table class="table">
+                    <tr>
+                        <td>No</td>
+                        <td>Nama Produk</td>
+                        <td>Harga Satuan</td>
+                        <td>Topping</td>
+                        <td>Harga Topping</td>
+                        <td>Qty</td>
+                        <td>#</td>
+                        <td>
+                            <a href=""><i class="fas fa-times"></i></a>
+                        </td>
+                    </tr>
+                </table>
+
+                    <a href="" class="btn btn-success"><i class="fas fa-check"></i> Selesai</a>
+                    <a href="" class="btn btn-info"><i class="fas fa-file"></i> Pending</a>
+                    
 
 
-                    <label for="">Harga</label>
-                    <input type="number" name="harga" class="form-control @error('harga') is-invalid @enderror" placeholder="Harga" value="{{ isset($transaksi) ?  $transaksi->harga : old('harga') }}">
-                    @error('harga')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
+                    <!-- @foreach ($transaksi as $item) 
+                    
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $item->produk_id }}</td>
+                        <td>{{ $item->harga_satuan }}</td>
+                        <td>{{ $item->harga_topping }}</td>
+                        <td>{{ $item->topping }}</td>
+                        <td>{{ $item->qty }}</td>
+                        
+                        <td>
+                            <div class="d-flex">
+                                <a href="/admin/topping/{{ $item->id }}/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a> 
+                                <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> 
+                            </div>
+                            
+                        </td>
+                    </tr>
 
-                    <label for="">Stok</label>
-                    <input type="number" name="stok" class="form-control @error('stok') is-invalid @enderror" placeholder="Stok" value="{{ isset($transaksi) ?  $transaksi->stok : old('stok') }}">
-                    @error('stok')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-
-
-                    <label for="">Gambar</label>
-                    <input type="file" name="gambar" class="form-control @error('gambar') is-invalid @enderror" value="{{ isset($transaksi) ?  $transaksi->gambar : old('gambar') }}">
-                    @error('gambar')
-                        <div class="invalid-feedback">
-                            {{ $message }}
-                        </div>
-                    @enderror
-
-                    @isset($transaksi)
-                        <img src="/{{ $transaksi->gambar }}" alt="" class="img-preview img-fluid mb-3 col-sm-5">
-                    @endisset
-                    <br>
-
-
-
-
-
-                    <a href="/admin/transaksi" class="btn btn-info mt-2"><i class="fas fa-arrow-left"></i> Kembali</a>
-                    <button type="submit" class="btn btn-primary mt-2"><i class="fas fa-save"></i> Simpan</button>
-            </form>
+                    
                 
+
+                
+                     @endforeach  -->
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row p-2">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+
+            <div class="form-group">
+                <label for="">Total Belanja</label>
+                <input type="number" class="form-control" name="total_belanja" id="" placeholder="Total Belanja">
+            </div>
+
+            <div class="form-group">
+                <label for="">Dibayarkan</label>
+                <input type="number" class="form-control" name="dibayarkan" id="" placeholder="Dibayarkan">
+            </div>
+            
+            <button type="submit" class="btn btn-primary btn-block"> Hitung</button>
+            <hr>
+
+            <div class="form-group">
+                <label for="">Uang Kembalian</label>
+                <input type="number" disabled class="form-control" name="kembalian" id="" placeholder="Kembalian">
+            </div>
+
+
             </div>
         </div>
     </div>
