@@ -10,9 +10,17 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <select name="produk_id" class="form-control" id="">
-                            <option value="">--Kode Produk--</option> 
-                        </select>
+                        <form method="GET">
+                            <div class="d-flex">
+                                <select name="produk_id" class="form-control" id="">
+                                    <option value="">--{{ isset($p_detail) ? $p_detail->name : 'Nama Produk' }}--</option> 
+                                    @foreach ($produk as $item)
+                                        <option value="{{ $item->id }}">{{ $item->id. ' - ' . $item->name}}</option>
+                                    @endforeach
+                                </select>
+                                <button type="submit" class="btn btn-primary">Pilih</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
 
@@ -22,7 +30,7 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="nama_produk" id="" placeholder="Nama Produk">
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" disabled name="nama_produk" id="" placeholder="Nama Produk">
                     </div>
                 </div>
 
@@ -32,7 +40,7 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <input type="text" class="form-control" name="harga_satuan" id="" placeholder="Harga Satuan">
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->harga : '' }}" class="form-control" disabled name="harga_satuan" id="" placeholder="Harga Satuan">
                     </div>
                 </div>
 
@@ -43,10 +51,9 @@
                         
                     <div class="col-md-8">
                         <div class="d-flex">
-                            <button class="btn btn-primary"><i class="fas fa-minus"></i></button>
-                            <input type="number" class="form-control" name="qty" id="" placeholder="Qty">
-                            <button class="btn btn-primary"><i class="fas fa-plus"></i></button>
-                            
+                            <button type="button" class="btn btn-primary" onclick="this.nextElementSibling.stepDown()"><i class="fas fa-minus"></i></button>
+                            <input type="number" class="form-control text-center" name="qty" id="qtyInput" placeholder="Qty" value="1" min="1">
+                            <button type="button" class="btn btn-primary" onclick="this.previousElementSibling.stepUp()"><i class="fas fa-plus"></i></button>
                         </div>
                     </div>
                 </div>
@@ -57,21 +64,42 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <select name="topping" class="form-control" id="">
-                            <option value="">--Opsional--</option> 
-                        </select>
+                        <form method="GET">
+                            <div class="d-flex">
+                                <select name="topping_id" class="form-control" id="toppingSelect" onchange="updateHargaTopping()">
+                                    <option value="">--Pilih Topping--</option> 
+                                    @foreach ($topping as $item)
+                                        <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                                
+                            </div>
+                        </form>
                     </div>
-                </div>
+                    </div>
 
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Harga Topping</label>
+
+                    <div class="row mt-1">
+                        <div class="col-md-4">
+                            <label for="">Harga Topping</label>
+                        </div>
+                            
+                        <div class="col-md-8">
+                            <input type="text" class="form-control" name="harga_topping" id="hargaTopping" placeholder="Harga Topping" readonly>
+                        </div>
                     </div>
-                        
-                    <div class="col-md-8">
-                        <input type="text" class="form-control" name="harga_topping" id="" placeholder="Harga Topping">
-                    </div>
-                </div>
+
+                    <script>
+                        function updateHargaTopping() {
+                            const toppingSelect = document.getElementById('toppingSelect');
+                            const selectedOption = toppingSelect.options[toppingSelect.selectedIndex];
+                            const hargaTopping = selectedOption.getAttribute('data-harga');
+                            const namaTopping = selectedOption.text;
+
+                            document.getElementById('hargaTopping').value = hargaTopping || '';
+                            document.getElementById('namaTopping').value = namaTopping || '';
+                        }
+                    </script>
 
                 <div class="row mt-1">
                     <div class="col-md-4">

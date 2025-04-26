@@ -7,6 +7,7 @@ use App\Models\Produk;
 use App\Models\Kategori;
 use App\Models\Transaksi;
 use App\Models\Topping;
+
 use RealRashid\SweetAlert\Facades\Alert;    
 
 
@@ -32,15 +33,26 @@ class AdminTransaksiController extends Controller
     public function create()
     {
         //
-        $data = [
-            'title' => 'Tambah Transaksi',
-            'transaksi' => Transaksi::all(),
-            'content' => 'admin/transaksi/create'
-        ];
-        return view('admin.layouts.wrapper', $data);
+    $produk = Produk::get();
+    $topping = Topping::get();
 
-       
-        return view('admin.transaksi.create', compact('transaksi'));
+    $produk_id = request('produk_id');
+    $topping_id = request('topping_id');
+
+    $p_detail = $produk_id ? Produk::find($produk_id) : null;
+    $t_detail = $topping_id ? Topping::find($topping_id) : null;
+
+    $data = [
+        'title' => 'Tambah Transaksi',
+        'produk' => $produk,
+        'p_detail' => $p_detail,
+
+        'topping' => $topping,
+        't_detail' => $t_detail,
+        'transaksi' => Transaksi::all(),
+        'content' => 'admin/transaksi/create'
+    ];
+    return view('admin.layouts.wrapper', $data);
     }
 
     /**
