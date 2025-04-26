@@ -44,19 +44,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">QTY</label>
-                    </div>
-                        
-                    <div class="col-md-8">
-                        <div class="d-flex">
-                            <button type="button" class="btn btn-primary" onclick="this.nextElementSibling.stepDown()"><i class="fas fa-minus"></i></button>
-                            <input type="number" class="form-control text-center" name="qty" id="qtyInput" placeholder="Qty" value="1" min="1">
-                            <button type="button" class="btn btn-primary" onclick="this.previousElementSibling.stepUp()"><i class="fas fa-plus"></i></button>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="row mt-1">
                     <div class="col-md-4">
@@ -64,42 +52,67 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <form method="GET">
-                            <div class="d-flex">
-                                <select name="topping_id" class="form-control" id="toppingSelect" onchange="updateHargaTopping()">
-                                    <option value="">--Pilih Topping--</option> 
-                                    @foreach ($topping as $item)
-                                        <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </select>
-                                
-                            </div>
-                        </form>
-                    </div>
-                    </div>
-
-
-                    <div class="row mt-1">
-                        <div class="col-md-4">
-                            <label for="">Harga Topping</label>
+                        <div class="d-flex">
+                            <select name="topping_id" class="form-control" id="toppingSelect" onchange="updateHargaTopping()">
+                                <option value="">--Pilih Topping--</option> 
+                                @foreach ($topping as $item)
+                                    <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
+                    </div>
+                </div>
+
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">Harga Topping</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <input type="text" value="" class="form-control" disabled name="harga_topping" id="hargaTopping" placeholder="Harga Topping">
+                    </div>
+                </div>
+
+<script>
+    function updateHargaTopping() {
+        const toppingSelect = document.getElementById('toppingSelect');
+        const hargaToppingInput = document.getElementById('hargaTopping');
+        const selectedOption = toppingSelect.options[toppingSelect.selectedIndex];
+        const harga = selectedOption.getAttribute('data-harga');
+        
+        // Update the Harga Topping input field
+        hargaToppingInput.value = harga ? `Rp. ${harga}` : '';
+        
+        // Optionally, update the subtotal dynamically
+        const hargaSatuan = parseFloat(document.querySelector('input[name="harga_satuan"]').value || 0);
+        const qty = parseInt(document.querySelector('input[name="qty"]').value || 1);
+        const toppingHarga = parseFloat(harga || 0);
+        const subtotal = (hargaSatuan + toppingHarga) * qty;
+
+        document.querySelector('h5').innerText = `Subtotal : Rp. ${subtotal}`;
+    }
+</script>
+
+
+
+                <div class="row mt-1">
+                    <div class="col-md-4">
+                        <label for="">QTY</label>
+                    </div>
+                        
+                    <div class="col-md-8">
+                        <div class="d-flex">
+                            <a href="?produk_id={{ request('produk_id') }}&act=min&qty={{ $qty }}" class="btn btn-primary"><i class="fas fa-minus"></i></a>
+
+                            <input type="number" value="{{ $qty }}" class="form-control" name="qty" id="" placeholder="Qty">
+
+                            <a href="?produk_id={{ request('produk_id') }}&act=plus&qty={{ $qty }}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
                             
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="harga_topping" id="hargaTopping" placeholder="Harga Topping" readonly>
                         </div>
                     </div>
+                </div>
 
-                    <script>
-                        function updateHargaTopping() {
-                            const toppingSelect = document.getElementById('toppingSelect');
-                            const selectedOption = toppingSelect.options[toppingSelect.selectedIndex];
-                            const hargaTopping = selectedOption.getAttribute('data-harga');
-                            const namaTopping = selectedOption.text;
-
-                            document.getElementById('hargaTopping').value = hargaTopping || '';
-                            document.getElementById('namaTopping').value = namaTopping || '';
-                        }
-                    </script>
+                
 
                 <div class="row mt-1">
                     <div class="col-md-4">
@@ -107,7 +120,7 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <h5>Subtotal : Rp. 20000</h5>
+                        <h5>Subtotal : Rp. {{ $subtotal }}</h5>
                     </div>
                 </div>
 
