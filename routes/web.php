@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminKategoriController;
 use App\Http\Controllers\AdminProdukController;
 use App\Http\Controllers\AdminToppingController;
 use App\Http\Controllers\AdminTransaksiController;
+use App\Http\Controllers\AdminTransaksiDetailController;
 
 // Ensure AdminUserController exists and is correctly imported
 
@@ -32,6 +33,8 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
         return view('admin.layouts.wrapper', $data);
 
     });
+    
+Route::post('/admin/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create'])->name('admin.transaksi.detail.create');
     Route::resource('/transaksi', AdminTransaksiController::class);
     Route::resource('/produk', AdminProdukController::class);
     Route::resource('/topping', AdminToppingController::class);

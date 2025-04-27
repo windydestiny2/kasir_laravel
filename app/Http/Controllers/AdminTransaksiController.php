@@ -33,7 +33,48 @@ class AdminTransaksiController extends Controller
     public function create()
     {
         //
-    $produk = Produk::get();
+        $data = [
+            'user_id' => \Illuminate\Support\Facades\Auth::user()->id,
+            'kasir_name' => \Illuminate\Support\Facades\Auth::user()->name,
+            'total' => 0,
+        ];
+        $transaksi = Transaksi::create($data);
+        return redirect('admin/transaksi/'.$transaksi->id.'/edit');
+        
+    
+    }
+
+
+
+
+
+    
+
+
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+        $produk = Produk::get();
     $topping = Topping::get();
 
     $produk_id = request('produk_id');
@@ -58,6 +99,7 @@ class AdminTransaksiController extends Controller
         $qty = $qty + 1;
     }
 
+    $subtotal = 0;
     $product_subtotal = $p_detail ? $qty * $p_detail->harga : 0;
     $topping_subtotal = $t_detail ? $qty * $t_detail->harga : 0;
     $subtotal = $product_subtotal + $topping_subtotal;
@@ -83,30 +125,6 @@ class AdminTransaksiController extends Controller
         'content' => 'admin/transaksi/create'
     ];
     return view('admin.layouts.wrapper', $data);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**

@@ -24,6 +24,10 @@
                     </div>
                 </div>
 
+                <form action="{{ route('admin.transaksi.detail.create') }}" method="POST">
+                    @csrf
+
+
                 <div class="row mt-1">
                     <div class="col-md-4">
                         <label for="">Nama Produk</label>
@@ -134,7 +138,7 @@
                         <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"> Tambah</i></button>
                     </div>
                 </div>
-
+                </form>
             </div>
         </div>
     </div>
