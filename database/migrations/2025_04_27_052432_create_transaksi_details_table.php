@@ -16,10 +16,9 @@ return new class extends Migration
             $table->foreignId('transaksi_id');
             $table->foreignId('produk_id');
             $table->string('produk_name');
-            $table->foreignId('topping_id')->nullable();
+            $table->foreignId('topping_id')->nullable()->constrained()->onDelete('cascade');
             $table->integer('qty');
             $table->integer('subtotal');
-
             $table->timestamps();
         });
     }

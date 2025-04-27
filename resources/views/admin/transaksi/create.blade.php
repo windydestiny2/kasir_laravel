@@ -26,15 +26,18 @@
 
                 <form action="{{ route('admin.transaksi.detail.create') }}" method="POST">
                     @csrf
-
-
+                    <input type="hidden" name="transaksi_id" value="{{ Request::segment(3) }}">
+                    
+                    <input type="hidden" name="subtotal" value="{{ $subtotal }}">
                 <div class="row mt-1">
                     <div class="col-md-4">
                         <label for="">Nama Produk</label>
                     </div>
                         
                     <div class="col-md-8">
-                        <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" disabled name="nama_produk" id="" placeholder="Nama Produk">
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" readonly name="nama_produk" id="" placeholder="Nama Produk">
+                        <input type="hidden" value="{{ isset($p_detail) ? $p_detail->id : '' }}" name="produk_id">
+                        <input type="hidden" name="produk_name" value="{{ $p_detail->name }}">
                     </div>
                 </div>
 
@@ -44,7 +47,8 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <input type="text" value="{{ isset($p_detail) ? $p_detail->harga : '' }}" class="form-control" disabled name="harga_satuan" id="" placeholder="Harga Satuan">
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->harga : '' }}" class="form-control" readonly name="harga_satuan" id="" placeholder="Harga Satuan">
+                        
                     </div>
                 </div>
 
@@ -61,6 +65,7 @@
                                 <option value="">--Pilih Topping--</option> 
                                 @foreach ($topping as $item)
                                     <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->name }}</option>
+
                                 @endforeach
                             </select>
                         </div>
@@ -73,7 +78,7 @@
                     </div>
                         
                     <div class="col-md-8">
-                        <input type="text" value="" class="form-control" disabled name="harga_topping" id="hargaTopping" placeholder="Harga Topping">
+                        <input type="text" value="" class="form-control" readonly name="harga_topping" id="hargaTopping" placeholder="Harga Topping">
                     </div>
                 </div>
 
@@ -217,7 +222,7 @@
 
             <div class="form-group">
                 <label for="">Uang Kembalian</label>
-                <input type="number" disabled class="form-control" name="kembalian" id="" placeholder="Kembalian">
+                <input type="number" readonly class="form-control" name="kembalian" id="" placeholder="Kembalian">
             </div>
 
 
