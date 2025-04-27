@@ -37,7 +37,7 @@
                     <div class="col-md-8">
                         <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" readonly name="nama_produk" id="" placeholder="Nama Produk">
                         <input type="hidden" value="{{ isset($p_detail) ? $p_detail->id : '' }}" name="produk_id">
-                        <input type="hidden" name="produk_name" value="{{ $p_detail->name }}">
+                        <input type="hidden" name="produk_name" value="{{ isset($p_detail) ? $p_detail->name : '' }}">
                     </div>
                 </div>
 

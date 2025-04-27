@@ -20,7 +20,18 @@ class AdminTransaksiDetailController extends Controller
             'qty' => $request->qty,
             'subtotal' => $request->subtotal,
         ];
-        TransaksiDetail::create($data);
+        // Hitung subtotal
+    $subtotal = ((float) $request->harga_satuan * (int) $request->qty) + (float) ($request->harga_topping ?? 0);
+
+    // Simpan data ke tabel transaksi_details
+    TransaksiDetail::create([
+        'transaksi_id' => $request->transaksi_id,
+        'produk_id' => $request->produk_id,
+        'produk_name' => $request->produk_name,
+        'topping_id' => $request->topping_id,
+        'qty' => $request->qty,
+        'subtotal' => $subtotal,
+    ]);
         return redirect()->back();
     }
 }
