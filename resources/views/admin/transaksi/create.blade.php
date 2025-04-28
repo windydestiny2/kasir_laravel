@@ -1,232 +1,153 @@
-<div class="row mt-1 p-3">
-
+<div class="row mt-3">
+    <!-- Form Pilihan Produk dan Topping -->
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
+                <form method="GET">
+                    <div class="form-group">
+                        <label for="produk_id">Kode Produk</label>
+                        <select name="produk_id" class="form-control">
+                            <option value="">--{{ isset($p_detail) ? $p_detail->name : 'Nama Produk' }}--</option>
+                            @foreach ($produk as $item)
+                                <option value="{{ $item->id }}" {{ request('produk_id') == $item->id ? 'selected' : '' }}>
+                                    {{ $item->id . ' - ' . $item->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Kode Produk</label>
+                    <div class="form-group">
+                        <label for="topping_id">Topping</label>
+                        <select name="topping_id" class="form-control">
+                            <option value="">--{{ isset($t_detail) ? $t_detail->name : 'Nama Topping' }}--</option>
+                            @foreach ($topping as $item_topping)
+                                <option value="{{ $item_topping->id }}" {{ request('topping_id') == $item_topping->id ? 'selected' : '' }}>
+                                    {{ $item_topping->id . ' - ' . $item_topping->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
-                        
-                    <div class="col-md-8">
-                        <form method="GET">
-                            <div class="d-flex">
-                                <select name="produk_id" class="form-control" id="">
-                                    <option value="">--{{ isset($p_detail) ? $p_detail->name : 'Nama Produk' }}--</option> 
-                                    @foreach ($produk as $item)
-                                        <option value="{{ $item->id }}">{{ $item->id. ' - ' . $item->name}}</option>
-                                    @endforeach
-                                </select>
-                                <button type="submit" class="btn btn-primary">Pilih</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Pilih</button>
+                </form>
+
+                <hr>
 
                 <form action="{{ route('admin.transaksi.detail.create') }}" method="POST">
                     @csrf
                     <input type="hidden" name="transaksi_id" value="{{ Request::segment(3) }}">
-                    
-                    <input type="hidden" name="subtotal" value="{{ $subtotal }}">
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Nama Produk</label>
+                    <input type="hidden" name="produk_id" value="{{ isset($p_detail) ? $p_detail->id : '' }}">
+                    <input type="hidden" name="produk_name" value="{{ isset($p_detail) ? $p_detail->name : '' }}">
+                    <input type="hidden" name="harga_satuan" value="{{ isset($p_detail) ? $p_detail->harga : '' }}">
+                    <input type="hidden" name="topping_id" value="{{ isset($t_detail) ? $t_detail->id : '' }}">
+                    <input type="hidden" name="harga_topping" value="{{ isset($t_detail) ? $t_detail->harga : '' }}">
+
+                    <div class="form-group">
+                        <label for="produk_name">Nama Produk</label>
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" readonly>
                     </div>
-                        
-                    <div class="col-md-8">
-                        <input type="text" value="{{ isset($p_detail) ? $p_detail->name : '' }}" class="form-control" readonly name="nama_produk" id="" placeholder="Nama Produk">
-                        <input type="hidden" value="{{ isset($p_detail) ? $p_detail->id : '' }}" name="produk_id">
-                        <input type="hidden" name="produk_name" value="{{ isset($p_detail) ? $p_detail->name : '' }}">
+
+                    <div class="form-group">
+                        <label for="harga_satuan">Harga Satuan</label>
+                        <input type="text" value="{{ isset($p_detail) ? $p_detail->harga : '' }}" class="form-control" readonly>
                     </div>
-                </div>
 
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Harga Satuan</label>
+                    <div class="form-group">
+                        <label for="harga_topping">Harga Topping</label>
+                        <input type="text" value="{{ isset($t_detail) ? $t_detail->harga : '' }}" class="form-control" readonly>
                     </div>
-                        
-                    <div class="col-md-8">
-                        <input type="text" value="{{ isset($p_detail) ? $p_detail->harga : '' }}" class="form-control" readonly name="harga_satuan" id="" placeholder="Harga Satuan">
-                        
-                    </div>
-                </div>
 
-
-
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Topping</label>
-                    </div>
-                        
-                    <div class="col-md-8">
-                        <div class="d-flex">
-                            <select name="topping_id" class="form-control" id="toppingSelect" onchange="updateHargaTopping()">
-                                <option value="">--Pilih Topping--</option> 
-                                @foreach ($topping as $item)
-                                    <option value="{{ $item->id }}" data-harga="{{ $item->harga }}">{{ $item->name }}</option>
-
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        <label for="">Harga Topping</label>
-                    </div>
-                        
-                    <div class="col-md-8">
-                        <input type="text" value="" class="form-control" readonly name="harga_topping" id="hargaTopping" placeholder="Harga Topping">
-                    </div>
-                </div>
-
-<script>
-    function updateHargaTopping() {
-        const toppingSelect = document.getElementById('toppingSelect');
-        const hargaToppingInput = document.getElementById('hargaTopping');
-        const selectedOption = toppingSelect.options[toppingSelect.selectedIndex];
-        const harga = selectedOption.getAttribute('data-harga');
-        
-        // Update the Harga Topping input field
-        hargaToppingInput.value = harga ? `Rp. ${harga}` : '';
-        
-        // Optionally, update the subtotal dynamically
-        const hargaSatuan = parseFloat(document.querySelector('input[name="harga_satuan"]').value || 0);
-        const qty = parseInt(document.querySelector('input[name="qty"]').value || 1);
-        const toppingHarga = parseFloat(harga || 0);
-        const subtotal = (hargaSatuan + toppingHarga) * qty;
-
-        document.querySelector('h5').innerText = `Subtotal : Rp. ${subtotal}`;
-    }
-</script>
-
-
-
-                <div class="row mt-1">
+                    <div class="row mt-1">
                     <div class="col-md-4">
                         <label for="">QTY</label>
                     </div>
-                        
                     <div class="col-md-8">
-                        <div class="d-flex">
-                            <a href="?produk_id={{ request('produk_id') }}&act=min&qty={{ $qty }}" class="btn btn-primary"><i class="fas fa-minus"></i></a>
-
-                            <input type="number" value="{{ $qty }}" class="form-control" name="qty" id="" placeholder="Qty">
-
-                            <a href="?produk_id={{ request('produk_id') }}&act=plus&qty={{ $qty }}" class="btn btn-primary"><i class="fas fa-plus"></i></a>
-                            
-                        </div>
+                        <input type="number" name="qty" class="form-control" value="{{ $qty }}" min="1">
                     </div>
                 </div>
 
-                
-
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        
-                    </div>
-                        
-                    <div class="col-md-8">
-                        <h5>Subtotal : Rp. {{ $subtotal }}</h5>
-                    </div>
+                <div class="form-group">
+                    <label for="subtotal">Subtotal</label>
+                    <input type="text" name="subtotal" class="form-control" value="{{ $subtotal }}" readonly>
                 </div>
 
-                <div class="row mt-1">
-                    <div class="col-md-4">
-                        
-                    </div>
-                        
-                    <div class="col-md-8">
-                        <a href="/admin/transaksi" class="btn btn-info"><i class="fas fa-arrow-left"> Kembali</i></a>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-arrow-right"> Tambah</i></button>
-                    </div>
-                </div>
+                    <button type="submit" class="btn btn-primary btn-block">Tambah</button>
                 </form>
             </div>
         </div>
     </div>
     
+
+    <!-- Tabel Transaksi -->
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <table class="table">
-                    <tr>
-                        <td>No</td>
-                        <td>Nama Produk</td>
-                        <td>Harga Satuan</td>
-                        <td>Topping</td>
-                        <td>Harga Topping</td>
-                        <td>Qty</td>
-                        <td>#</td>
-                        <td>
-                            <a href=""><i class="fas fa-times"></i></a>
-                        </td>
-                    </tr>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Produk</th>
+                            <th>Harga Satuan</th>
+                            <th>Topping</th>
+                            <th>Harga Topping</th>
+                            <th>Qty</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Loop data transaksi -->
+                        @foreach ($transaksi as $item)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->produk_id }}</td>
+                                <td>{{ $item->harga_satuan }}</td>
+                                <td>{{ $item->topping }}</td>
+                                <td>{{ $item->harga_topping }}</td>
+                                <td>{{ $item->qty }}</td>
+                                
+                                <td>
+                                    <a href="#" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
 
-                    <a href="" class="btn btn-success"><i class="fas fa-check"></i> Selesai</a>
-                    <a href="" class="btn btn-info"><i class="fas fa-file"></i> Pending</a>
-                    
-
-
-                    <!-- @foreach ($transaksi as $item) 
-                    
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $item->produk_id }}</td>
-                        <td>{{ $item->harga_satuan }}</td>
-                        <td>{{ $item->harga_topping }}</td>
-                        <td>{{ $item->topping }}</td>
-                        <td>{{ $item->qty }}</td>
-                        
-                        <td>
-                            <div class="d-flex">
-                                <a href="/admin/topping/{{ $item->id }}/edit" class="btn btn-info btn-sm"><i class="fas fa-edit"></i></a> 
-                                <a href="" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a> 
-                            </div>
-                            
-                        </td>
-                    </tr>
-
-                    
-                
-
-                
-                     @endforeach  -->
-
-                
+                <a href="#" class="btn btn-success"><i class="fas fa-check"></i> Selesai</a>
+                <a href="#" class="btn btn-info"><i class="fas fa-file"></i> Pending</a>
             </div>
         </div>
     </div>
 </div>
 
-<div class="row p-2">
+<!-- Total Belanja -->
+<div class="row mt-3">
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <label for="total_belanja">Total Belanja</label>
+                        <input type="number" class="form-control" name="total_belanja" placeholder="Total Belanja">
+                    </div>
 
-            <div class="form-group">
-                <label for="">Total Belanja</label>
-                <input type="number" class="form-control" name="total_belanja" id="" placeholder="Total Belanja">
-            </div>
+                    <div class="form-group">
+                        <label for="dibayarkan">Dibayarkan</label>
+                        <input type="number" class="form-control" name="dibayarkan" placeholder="Dibayarkan">
+                    </div>
 
-            <div class="form-group">
-                <label for="">Dibayarkan</label>
-                <input type="number" class="form-control" name="dibayarkan" id="" placeholder="Dibayarkan">
-            </div>
-            
-            <button type="submit" class="btn btn-primary btn-block"> Hitung</button>
-            <hr>
+                    <button type="submit" class="btn btn-primary btn-block">Hitung</button>
+                    <hr>
 
-            <div class="form-group">
-                <label for="">Uang Kembalian</label>
-                <input type="number" readonly class="form-control" name="kembalian" id="" placeholder="Kembalian">
-            </div>
-
-
+                    <div class="form-group">
+                        <label for="kembalian">Uang Kembalian</label>
+                        <input type="number" readonly class="form-control" name="kembalian" placeholder="Kembalian">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+
+
