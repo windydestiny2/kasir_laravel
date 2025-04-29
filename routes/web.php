@@ -34,6 +34,7 @@ Route::prefix('/admin')->middleware('auth')->group(function () {
 
     });
     
+    
 Route::post('/admin/transaksi/detail/create', [AdminTransaksiDetailController::class, 'create'])->name('admin.transaksi.detail.create');
     Route::resource('/transaksi', AdminTransaksiController::class);
     Route::resource('/produk', AdminProdukController::class);

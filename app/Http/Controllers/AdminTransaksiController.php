@@ -87,27 +87,23 @@ class AdminTransaksiController extends Controller
         $t_detail->harga = $t_detail->harga ?? 0;
     }
 
-    $act = request('act');
-    $qty = request('qty');
-    if ($act == 'min') {
-        if ($qty <= 1) {
-            $qty = 1;
-        } else {
-            $qty = $qty - 1;
+
+
+    
+            $qty = request('qty', 1);
+        $act = request('act');
+        if ($act === 'min' && $qty > 1) {
+            $qty--;
+        } elseif ($act === 'plus') {
+            $qty++;
         }
-    } else {
-        $qty = $qty + 1;
-    }
 
     $subtotal = 0;
     $product_subtotal = $p_detail ? $qty * $p_detail->harga : 0;
     $topping_subtotal = $t_detail ? $qty * $t_detail->harga : 0;
     $subtotal = $product_subtotal + $topping_subtotal;
 
-    // Ensure topping price is included in the subtotal
-    if ($t_detail) {
-        $subtotal += $topping_subtotal;
-    }
+
 
 
 

@@ -39,7 +39,9 @@ class AdminTransaksiDetailController extends Controller
         $qty = (int) $request->qty;
         $harga_topping = (int) $harga_topping;
 
-        $subtotal = ($harga_satuan * $qty) + ($harga_topping * $qty);
+        $product_subtotal = $harga_satuan * $qty;
+        $topping_subtotal = $harga_topping * $qty;
+        $subtotal = $product_subtotal + $topping_subtotal;
     
         // Simpan data ke tabel transaksi_details
         TransaksiDetail::create([
@@ -55,7 +57,7 @@ class AdminTransaksiDetailController extends Controller
             'harga_satuan' => $request->harga_satuan,
             'qty' => $request->qty,
             'harga_topping' => $harga_topping,
-            'subtotal' => ($request->harga_satuan * $request->qty) + ($harga_topping * $request->qty),
+            'subtotal' => $subtotal,
         ]);
     
         return redirect()->back()->with('success', 'Detail transaksi berhasil ditambahkan.');
